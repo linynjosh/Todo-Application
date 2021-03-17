@@ -1,7 +1,7 @@
 package model;
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 // Represents an urgent task that is due at 11:59 of the current day
 public class UrgentTask extends Task {

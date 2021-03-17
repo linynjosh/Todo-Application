@@ -1,14 +1,13 @@
 package ui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Scanner;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
 
 
 
