@@ -1,0 +1,21 @@
+{
+    "reminders": [{
+        "due date": "06/04/2021",
+        "urgency": "UrgentTask",
+        "task name": "math 101 midterm"
+    }],
+    "name": "Josh's todoList",
+    "completed list": [],
+    "todo list": [
+        {
+            "due date": "06/04/2021",
+            "urgency": "UrgentTask",
+            "task name": "math 101 midterm"
+        },
+        {
+            "due date": "03/07/21",
+            "urgency": "RegularTask",
+            "task name": "math 221 webwork"
+        }
+    ]
+}

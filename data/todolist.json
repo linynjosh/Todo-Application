@@ -1,0 +1,64 @@
+{
+    "reminders": [
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "math 101 midterm"
+        },
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "CPSC 210 phase 3"
+        },
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "MATLAB 221"
+        },
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "asdfkdalsjf;als"
+        }
+    ],
+    "name": "Josh's todoList",
+    "completed list": [
+        {
+            "due date": "Ongoing",
+            "urgency": "OngoingTask",
+            "task name": "Exercise"
+        },
+        {
+            "due date": "03/04/22",
+            "urgency": "RegularTask",
+            "task name": "Phys 159 "
+        },
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "CPSC 210 phase 3"
+        },
+        {
+            "due date": "04/02/21",
+            "urgency": "RegularTask",
+            "task name": "math 101"
+        }
+    ],
+    "todo list": [
+        {
+            "due date": "29/03/2021",
+            "urgency": "UrgentTask",
+            "task name": "math 101 midterm"
+        },
+        {
+            "due date": "03/07/21",
+            "urgency": "RegularTask",
+            "task name": "math 221 webwork"
+        },
+        {
+            "due date": "Next Monday",
+            "urgency": "RegularTask",
+            "task name": "math 101 webwork"
+        }
+    ]
+}
