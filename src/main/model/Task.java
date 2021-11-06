@@ -3,8 +3,6 @@ package model;
 
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 // Represents a task having a title, description, due date, and completion status
 public abstract class Task {
     protected String title;
