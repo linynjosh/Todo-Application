@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -7,14 +10,45 @@ import java.util.ArrayList;
 // Represents a to-do list that has a
 // list of completed tasks and a list of uncompleted tasks
 public class TodoList {
+    private String name;
     private ArrayList<Task> todoList;
     private ArrayList<Task> completedList;
+    private ArrayList<Task> reminders;
 
     // MODIFIES: this
     // EFFECTS: instantiates a to-do array list and a completed array list
-    public TodoList() {
-        todoList = new ArrayList<Task>();
-        completedList = new ArrayList<Task>();
+    public TodoList(String name) {
+        this.name = name;
+        todoList = new ArrayList<>();
+        completedList = new ArrayList<>();
+        reminders = new ArrayList<>();
+    }
+
+
+    // EFFECTS: returns the name of the to-do list
+    public String getName() {
+        return this.name;
+    }
+
+    // Effects: return to-do list
+    public ArrayList<Task> getTodos() {
+        return this.todoList;
+    }
+
+    // Effects: return completed tasks
+    public ArrayList<Task> getCompletedList() {
+        return this.completedList;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add task to reminders
+    public void addReminder(Task task) {
+        this.reminders.add(task);
+    }
+
+    // Effects: return reminders
+    public ArrayList<Task> getReminders() {
+        return this.reminders;
     }
 
     // MODIFIES: this
@@ -103,20 +137,78 @@ public class TodoList {
         return completed;
     }
 
-    // EFFECTS: returns the names of tasks due today
-    public String dueTodayTasksNames() {
+    // MODIFIES: this
+    // EFFECTS: creates a list of reminders of task due today
+    public void dueTodayTasks() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
+        for (Task task : this.todoList) {
+            if (task.getDueDate().equals(dtf.format(now)) && !reminderContainsTaskName(task.getTitle())) {
+                this.reminders.add(task);
+            }
+        }
+    }
+
+    // EFFECTS: returns true it task name is in reminders, else false
+    public boolean reminderContainsTaskName(String name) {
+        boolean contains = false;
+        for (Task task : this.reminders) {
+            if (task.getTitle().equals(name)) {
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
+    // EFFECTS: returns the names of tasks due today
+    public String dueTodayTasksNames() {
+        this.dueTodayTasks();
         int count = 0;
         String todayTodos = " tasks due today";
-        for (Task task : this.todoList) {
-            if (task.getDueDate().equals(dtf.format(now))) {
-                count += 1;
-                todayTodos += ": \n";
-                todayTodos += task.getTitle() + "\n";
-            }
+        for (Task task : this.reminders) {
+            count += 1;
+            todayTodos += ": \n";
+            todayTodos += task.getTitle() + "\n";
         }
         return  count + todayTodos + "\n";
     }
 
+    // EFFECTS: returns a to-do list as a json
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", "Josh's todoList");
+        json.put("todo list", todoListToJson());
+        json.put("completed list", completedListToJson());
+        json.put("reminders", remindersToJson());
+        return json;
+    }
+
+    // EFFECTS: returns task in this to-do list as a JSON array
+    public JSONArray todoListToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Task task : this.todoList) {
+            jsonArray.put(task.toJson());
+        }
+        return jsonArray;
+    }
+
+
+    // EFFECTS: returns task in this completed list as a JSON array
+    public JSONArray completedListToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Task task : this.completedList) {
+            jsonArray.put(task.toJson());
+        }
+        return jsonArray;
+    }
+
+    // EFFECTS: returns task in reminders as a JSON array
+    public JSONArray remindersToJson() {
+        dueTodayTasks();
+        JSONArray jsonArray = new JSONArray();
+        for (Task task : this.reminders) {
+            jsonArray.put(task.toJson());
+        }
+        return jsonArray;
+    }
 }

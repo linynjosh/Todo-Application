@@ -5,6 +5,7 @@ package model;
 public class OngoingTask extends Task {
     public OngoingTask(String name) {
         super(name);
+        this.urgency = Urgency.OngoingTask;
     }
 
     // MODIFIES: this

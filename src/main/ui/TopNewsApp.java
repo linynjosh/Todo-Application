@@ -14,6 +14,7 @@ import java.util.Scanner;
 // Top news headlines application
 public class TopNewsApp {
     private Scanner input;
+    private String news;
 
     // EFFECTS: runs the news application
     public TopNewsApp() throws Exception {
@@ -56,8 +57,14 @@ public class TopNewsApp {
             while (itr.hasNext()) {
                 Map.Entry pair = itr.next();
                 System.out.println(pair.getKey() + " : " + pair.getValue());
+                this.news += pair.getKey() + " : " + pair.getValue() + "\n";
             }
         }
 
+    }
+
+    // EFFECTS: returns news
+    public String getNews() {
+        return this.news;
     }
 }

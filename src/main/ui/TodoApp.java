@@ -1,16 +1,27 @@
 package ui;
 
+import model.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 // To-do application
 public class TodoApp {
+    private static final String JSON_STORE = "./data/todolist.json";
     private TodoList myList;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the teller application
     public TodoApp() throws Exception {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runTeller();
     }
 
@@ -47,12 +58,16 @@ public class TodoApp {
             removeTask();
         } else if (command.equals("c")) {
             viewTasks();
+        } else if (command.equals("s")) {
+            saveWorkRoom();
+        } else if (command.equals("l")) {
+            loadWorkRoom();
         } else if (command.equals("d")) {
             checkOff();
         } else if (command.equals("e")) {
             reminder();
         } else if (command.equals("f")) {
-            new WeatherApp();
+            new WeatherApp("Vancouver");
         } else if (command.equals("g")) {
             new TopNewsApp();
         } else {
@@ -63,7 +78,7 @@ public class TodoApp {
     // MODIFIES: this
     // EFFECTS: initializes to-do list
     private void init() {
-        myList = new TodoList();
+        myList = new TodoList("Josh's todos");
         input = new Scanner(System.in);
     }
 
@@ -79,6 +94,8 @@ public class TodoApp {
         System.out.println("d -> check off a task");
         System.out.println("e -> reminders: what tasks are due today?");
         System.out.println("f -> check today's weather");
+        System.out.println("s -> save todo list to file");
+        System.out.println("l -> load todo list from file");
         System.out.println("g -> read today's top news headlines");
         System.out.println("q -> quit");
     }
@@ -96,17 +113,22 @@ public class TodoApp {
             System.out.println("Enter due date (dd/mm/yyyy)");
             String dueDate = input.nextLine();
             Task task = new RegularTask(name);
-            task.setDueDate(dueDate);
-            myList.addTodo(task);
+            addTask(dueDate, task);
         } else if (choose == 2) {
             Task task = new UrgentTask(name);
-            task.setDueDate("today");
-            myList.addTodo(task);
+            addTask("today", task);
         } else {
             Task task = new OngoingTask(name);
-            task.setDueDate("");
-            myList.addTodo(task);
+            addTask("Ongoing", task);
         }
+    }
+
+    // MODIFIES: this:
+    // EFFECTS: sets the due date and urgency of the task depending what task it is.
+    // Then, adds task to the to-do list
+    public void addTask(String dueDate, Task task) {
+        task.setDueDate(dueDate);
+        myList.addTodo(task);
     }
 
     // MODIFIES: this
@@ -146,6 +168,29 @@ public class TodoApp {
     // EFFECTS: prints the tasks due by the end of the day
     public void reminder() {
         System.out.println(myList.dueTodayTasksNames());
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveWorkRoom() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(myList);
+            jsonWriter.close();
+            System.out.println("Saved " + "my" + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadWorkRoom() {
+        try {
+            myList = jsonReader.read();
+            System.out.println("Loaded " + "my" + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 }

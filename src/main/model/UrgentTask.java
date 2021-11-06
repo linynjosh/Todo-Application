@@ -1,12 +1,13 @@
 package model;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 // Represents an urgent task that is due at 11:59 of the current day
 public class UrgentTask extends Task {
     public UrgentTask(String name) {
         super(name);
+        this.urgency = Urgency.UrgentTask;
     }
 
     // MODIFIES: this
@@ -23,5 +24,4 @@ public class UrgentTask extends Task {
         LocalDateTime now = LocalDateTime.now();
         this.dueDate = dtf.format(now);
     }
-
 }

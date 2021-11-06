@@ -5,6 +5,7 @@ package model;
 public class RegularTask extends Task {
     public RegularTask(String name) {
         super(name);
+        this.urgency = Urgency.RegularTask;
     }
 
     // MODIFIES: this
